@@ -1,22 +1,22 @@
  <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="dlabnav">
-            <div class="dlabnav-scroll">
-				<ul class="metismenu" id="menu">
-                    <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
-							<i class="fas fa-home"></i>
-							<span class="nav-text">Dashboard</span>
-						</a>
-                        <ul aria-expanded="false">
-							<li><a href="index.html">Dashboard Light</a></li>
-							
-						</ul>
+ <div class="dlabnav">
+     <div class="dlabnav-scroll">
+         <ul class="metismenu" id="menu">
+             <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
+                     <i class="fas fa-home"></i>
+                     <span class="nav-text">Dashboard</span>
+                 </a>
+                 <ul aria-expanded="false">
+                     <li><a href="index.php">Dashboard Light</a></li>
 
-                    </li>					
-                </ul>			
-			</div>
-        </div>
-        <!--**********************************
+                 </ul>
+
+             </li>
+         </ul>
+     </div>
+ </div>
+ <!--**********************************
             Sidebar end
         ***********************************-->

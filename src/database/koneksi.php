@@ -1,5 +1,6 @@
 <?php
-function koneksiDatabase() {
+function koneksiDatabase()
+{
         $servername = "localhost";
         $username = "root";
         $password = "";
@@ -10,11 +11,8 @@ function koneksiDatabase() {
 
         // Memeriksa koneksi
         if (!$conn) {
-         die("Koneksi gagal: " . mysqli_connect_error());
+                die("Koneksi gagal: " . mysqli_connect_error());
         }
-
-    
-
 
         return $conn;
 }
