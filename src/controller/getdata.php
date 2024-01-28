@@ -15,6 +15,7 @@ $search = isset($_GET['search']['value']) ? $_GET['search']['value'] : '';
 // Menghitung total data tanpa filter
 $totalData = countDataMonitoring();
 
+
 // Menghitung total data dengan filter
 $totalFiltered = countDataMonitoringFiltered($search);
 

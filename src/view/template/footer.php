@@ -1,3 +1,6 @@
+</div>
+</div>
+
 <!--**********************************
             Footer start
         ***********************************-->
@@ -55,10 +58,22 @@
 <script src="js/demo.js"></script>
 <!-- <script src="js/styleSwitcher.js"></script> -->
 
+<script src="vendor/sweetalert2/dist/sweetalert2.min.js"></script>
+
 <script>
 	$(document).ready(function() {
 		// Menghancurkan DataTable sebelumnya (jika ada)
 		$('#example').DataTable().destroy();
+		$('#nama').val('');
+		$('#status').val('');
+
+		$(document).on('click', '#tambah_data', function() {
+			$('#nama').val('');
+			$('#status').val('');
+			$('#btn-save').val('add')
+		})
+
+
 
 		// Menggunakan DataTables untuk menampilkan data dalam tabel
 		var dataTable = $('#example').DataTable({
@@ -69,18 +84,32 @@
 				type: 'GET',
 				dataType: 'json'
 			},
-			columns: [{
-					data: 'nama',
-					orderable: true
-				},
+			columns: [
+				// {
+				// 	data: 'nama',
+				// 	orderable: true
+				// },
 				{
 					data: 'status',
-					orderable: true
+					orderable: true,
+					render: function(data, type, row) {
+						// Mengganti nilai status menjadi 'masuk' atau 'keluar'
+						return data == '1' ? 'masuk' : 'keluar';
+					}
 				},
 				{
 					data: 'tanggal',
 					orderable: true
 				},
+				// {
+
+				// 	orderable: true,
+				// 	render: function(data, type, row) {
+				// 		// Mengganti nilai status menjadi 'masuk' atau 'keluar'
+				// 		return `<button id="edit" class="badge badge-success btn-edit" data-id="${row.id_monitor}">Edit</button>
+				// 				<button id="Hapus" class="badge badge-danger btn-delete" data-id="${row.id_monitor}">Delete</button>`;
+				// 	}
+				// },
 				// Tambahkan kolom-kolom lain sesuai dengan struktur tabel
 			]
 		});
@@ -89,13 +118,209 @@
 		setInterval(function() {
 			// Reload data dari server tanpa menghancurkan tabel
 			dataTable.ajax.reload(null, false); // Parameter kedua false untuk mempertahankan filter
+			getTotalMasuk()
+			getTotalKeluar()
+			getTotalKeseluruhan()
 		}, 1000); // Refresh setiap 1 detik
 
+		function getTotalMasuk() {
+			$.ajax({
+				type: 'post',
+				dataType: 'json',
+				url: 'src/controller/getTotalMasuk.php',
+				success: function(data) {
+					$('#total-masuk').html(data.total_masuk)
+					$('#persen-masuk').attr('style', `width: ${data.persentase_masuk}%; height:10px;`)
+				}
+			})
+		}
 
-		$
+		function getTotalKeluar() {
+			$.ajax({
+				type: 'post',
+				dataType: 'json',
+				url: 'src/controller/getTotalKeluar.php',
+				success: function(data) {
+					// console.log('data');
+					$('#total-keluar').html(data.total_keluar)
+					$('#persen-keluar').attr('style', `width: ${data.persentase_keluar}%; height:10px;`)
+
+				},
+				error: function() {
+					console.log('error');
+				}
+			})
+		}
+
+		function getTotalKeseluruhan() {
+			$.ajax({
+				type: 'post',
+				dataType: 'json',
+				url: 'src/controller/getTotalKeseluruhan.php',
+				success: function(data) {
+					$('#total').html(data)
+				}
+			})
+		}
+
+		$(document).on('submit', '#form-data', function(e) {
+			e.preventDefault()
+			var nama = $('#nama').val();
+			var status = $('#status').val();
+			var val_btn = $('#btn-save').val();
+			var id_monitor = $('#id_monitor').val();
+			console.log('id ', id_monitor);
+
+			if (nama.trim() != '' && status.trim != '' && val_btn == 'add') {
+				$.ajax({
+					type: 'GET',
+					url: 'src/controller/addData.php',
+					dataType: 'json',
+					data: {
+						nama: nama,
+						status: status,
+					},
+					success: function(response) {
+						console.log(response);
+						if (response.status == 200) {
+							Swal.fire({
+								title: "Berhasil!",
+								text: response.message,
+								icon: "success"
+							});
+						} else {
+							Swal.fire({
+								icon: "error",
+								title: "Oops...",
+								text: "Something went wrong!",
+							});
+						}
+					},
+					error: function(error) {
+						Swal.fire({
+							icon: "error",
+							title: "Oops...",
+							text: "Something went wrong!",
+						});
+					}
+				});
+
+			} else if (nama.trim() != '' && status.trim != '' && val_btn == 'edit') {
+				$.ajax({
+					type: 'GET',
+					url: 'src/controller/updateData.php',
+					dataType: 'json',
+					data: {
+						nama: nama,
+						status: status,
+						id: id_monitor,
+					},
+					success: function(response) {
+						console.log(response);
+						if (response.status == 200) {
+							Swal.fire({
+								title: "Berhasil!",
+								text: response.message,
+								icon: "success"
+							});
+						} else {
+							Swal.fire({
+								icon: "error",
+								title: "Oops...",
+								text: "Something went wrong!",
+							});
+						}
+					},
+					error: function(error) {
+						Swal.fire({
+							icon: "error",
+							title: "Oops...",
+							text: "Something went wrong!",
+						});
+					}
+				});
+			} else {
+				Swal.fire({
+					icon: "error",
+					title: "Data Masih Kosong...",
+					text: "Isi data terlebih dahulu!",
+				});
+			}
+		})
+
+
+		// Handle klik tombol Edit
+		$(document).on('click', '.btn-edit', function() {
+			var id = $(this).data('id');
+			var val_btn = $('#btn-save').val('edit')
+			if (id != '') {
+				$.ajax({
+					type: 'GET',
+					url: 'src/controller/get_data_byid.php', // Ganti dengan file PHP backend yang sesuai
+					data: {
+						id: id
+					},
+					dataType: 'json',
+					success: function(data) {
+						console.log(data);
+						if (data.status === 200) {
+							$('#nama').val(data.data.nama)
+							$('#status').val(data.data.status)
+							$('#id_monitor').val(data.data.id_monitor)
+							$('#exampleModalCenter').modal('show')
+							console.log(data.data.id_monitor);
+
+						}
+
+					},
+					error: function(data) {
+
+					}
+				});
+			}
+
+			// console.log('Edit ID: ' + id);
+		});
+		// Handle klik tombol Delete
+		$(document).on('click', '.btn-delete', function() {
+			var id = $(this).data('id');
+			var val_btn = $('#btn-save').val('edit')
+			if (id != '') {
+
+				$.ajax({
+					type: 'GET',
+					url: 'src/controller/deleteData.php', // Ganti dengan file PHP backend yang sesuai
+					data: {
+						id: id
+					},
+					dataType: 'json',
+					success: function(data) {
+						console.log(data);
+						if (data.status === 200) {
+							Swal.fire({
+								title: "Berhasil!",
+								text: response.message,
+								icon: "success"
+							});
+
+						}
+
+					},
+					error: function(data) {
+
+					}
+				});
+			}
+
+			// console.log('Edit ID: ' + id);
+		});
+
+
+
+
 	});
 </script>
-<script>
+<!-- <script>
 	function cardsCenter() {
 
 		/*  testimonial one function by = owl.carousel.js */
@@ -139,7 +364,7 @@
 			cardsCenter();
 		}, 1000);
 	});
-</script>
+</script> -->
 
 
 </body>

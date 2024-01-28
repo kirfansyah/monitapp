@@ -9,7 +9,7 @@
                      <span class="nav-text">Dashboard</span>
                  </a>
                  <ul aria-expanded="false">
-                     <li><a href="index.php">Dashboard Light</a></li>
+                     <li><a href="<?= $base_url ?>">Monitoring</a></li>
 
                  </ul>
 
