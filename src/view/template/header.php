@@ -32,7 +32,9 @@ include 'src/config/config.php';
 	<!-- Style css -->
 	<link href="css/style.css" rel="stylesheet">
 
+	<!-- <link href="vendor/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet"> -->
 	<link href="vendor/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+
 
 
 

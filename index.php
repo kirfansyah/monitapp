@@ -62,31 +62,31 @@ include 'src/view/template/sidebar.php';
 			</div>
 		</div>
 		<div class="row">
-			<div class="card">
-				<div class="card-header">
-					<button type="button" id="tambah_data" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">Add Data Manual</button>
-				</div>
-				<div class="card-body">
-					<div class="table-responsive">
-						<table id="example" class="display" style="width: 100%">
-							<thead>
-								<tr>
-									<!-- <th>Nama</th> -->
-									<th>Status</th>
-									<th>Tanggal</th>
-									<!-- <th>Aksi</th> -->
-								</tr>
-							</thead>
-							<tbody>
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header">
+						<button type="button" id="tambah_data" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">Add Data Manual</button>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table id="example" class="display" style="min-width: 845px">
+								<thead>
+									<tr>
+										<!-- <th>Nama</th> -->
+										<th>Status</th>
+										<th>Tanggal</th>
+										<!-- <th>Aksi</th> -->
+									</tr>
+								</thead>
+								<tbody>
 
-							</tbody>
+								</tbody>
 
-						</table>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
-
-
 		</div>
 	</div>
 </div>

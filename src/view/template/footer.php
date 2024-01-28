@@ -35,6 +35,8 @@
 <script src="vendor/chart.js/Chart.bundle.min.js"></script>
 <script src="vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
 
+<!-- <script src="vendor/sweetalert2/dist/sweetalert2.min.js"></script> -->
+
 <!-- Apex Chart -->
 <!-- <script src="vendor/apexchart/apexchart.js"></script> -->
 
@@ -111,7 +113,13 @@
 				// 	}
 				// },
 				// Tambahkan kolom-kolom lain sesuai dengan struktur tabel
-			]
+			],
+			language: {
+				paginate: {
+					previous: '<<', // Mengganti teks pada tombol "Previous" dengan tanda "<<"
+					next: '>>' // Tetap menggunakan teks "Next" pada tombol "Next"
+				}
+			}
 		});
 
 		// Mengatur refresh setiap detik
@@ -165,13 +173,15 @@
 
 		$(document).on('submit', '#form-data', function(e) {
 			e.preventDefault()
-			var nama = $('#nama').val();
+			// var nama = $('#nama').val();
 			var status = $('#status').val();
+			var nama = '';
+			// var status = '';
 			var val_btn = $('#btn-save').val();
 			var id_monitor = $('#id_monitor').val();
-			console.log('id ', id_monitor);
 
-			if (nama.trim() != '' && status.trim != '' && val_btn == 'add') {
+			// if (nama.trim() != '' && status.trim() != '' && val_btn == 'add') {
+			if (val_btn == 'add') {
 				$.ajax({
 					type: 'GET',
 					url: 'src/controller/addData.php',
@@ -188,6 +198,9 @@
 								text: response.message,
 								icon: "success"
 							});
+
+							dataTable.ajax.reload(null, false); // Parameter kedua false untuk mempertahankan filter
+
 						} else {
 							Swal.fire({
 								icon: "error",
@@ -205,7 +218,8 @@
 					}
 				});
 
-			} else if (nama.trim() != '' && status.trim != '' && val_btn == 'edit') {
+				// } else if (nama.trim() != '' && status.trim() != '' && val_btn == 'edit') {
+			} else if (val_btn == 'edit') {
 				$.ajax({
 					type: 'GET',
 					url: 'src/controller/updateData.php',
