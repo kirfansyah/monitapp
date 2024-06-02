@@ -44,6 +44,14 @@ include 'src/config/config.php';
 	<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css"> -->
 	<!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script> -->
 
+	<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"> -->
+	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+	
+
+
+
 
 
 
@@ -56,6 +64,24 @@ include 'src/config/config.php';
 			align-items: stretch;
 		}
 	</style>
+
+<style>
+        .dataTables_filter {
+            display: flex;
+            align-items: center;
+        }
+        .dataTables_filter input {
+            margin-left: 0.5em;
+        }
+        .dateRangePicker {
+            margin-left: 10px;
+        }
+
+		.btn-excel {
+    background-color: blue; /* Ganti warna sesuai preferensi Anda */
+    color: white; /* Ubah warna teks agar sesuai dengan latar belakang tombol */
+}
+    </style>
 	<!--*******************
         Preloader start
     ********************-->

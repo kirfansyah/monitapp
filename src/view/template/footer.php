@@ -62,6 +62,19 @@
 
 <script src="vendor/sweetalert2/dist/sweetalert2.min.js"></script>
 
+
+<!-- TAMBAHAN -->
+
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+
+
 <script>
 	$(document).ready(function() {
 		// Menghancurkan DataTable sebelumnya (jika ada)
@@ -70,10 +83,13 @@
 		$('#status').val('');
 
 		$(document).on('click', '#tambah_data', function() {
+			$('.modal-title').text('Tambah Data')
 			$('#nama').val('');
 			$('#status').val('');
 			$('#btn-save').val('add')
 		})
+
+		
 
 
 
@@ -103,16 +119,45 @@
 					data: 'tanggal',
 					orderable: true
 				},
-				// {
+				{
 
-				// 	orderable: true,
-				// 	render: function(data, type, row) {
-				// 		// Mengganti nilai status menjadi 'masuk' atau 'keluar'
-				// 		return `<button id="edit" class="badge badge-success btn-edit" data-id="${row.id_monitor}">Edit</button>
-				// 				<button id="Hapus" class="badge badge-danger btn-delete" data-id="${row.id_monitor}">Delete</button>`;
-				// 	}
-				// },
+					orderable: true,
+					render: function(data, type, row) {
+						// Mengganti nilai status menjadi 'masuk' atau 'keluar'
+						// return `<button id="edit" class="badge badge-success btn-edit" data-id="${row.id_monitor}">Edit</button>
+						// 		<button id="Hapus" class="badge badge-danger btn-delete" data-id="${row.id_monitor}">Delete</button>`;
+						return `<button id="Hapus" class="badge badge-danger btn-delete" data-id="${row.id_monitor}">Delete</button>`;
+					}
+				},
 				// Tambahkan kolom-kolom lain sesuai dengan struktur tabel
+			],
+			
+			dom: 'Bfrtip',
+			buttons: [
+				{
+					extend: 'excelHtml5',
+					title: 'Data export',
+					sheetName: 'Sheet1',
+					exportOptions: {
+						columns: [0, 1]
+					},
+					className: 'btn-excel' // Menambahkan kelas CSS khusus
+				},
+				{
+                    extend: 'pdfHtml5',
+                    title: 'Data export',
+                    exportOptions: {
+                        columns: [0, 1] // Ekspor hanya kolom pertama (Status) dan kedua (Tanggal)
+                    }
+                },
+				{
+                    extend: 'print',
+                    title: 'Data export',
+                    exportOptions: {
+                        columns: [0, 1] // Ekspor hanya kolom pertama (Status) dan kedua (Tanggal)
+                    }
+                },
+				'copy', 'csv', 'pdf'
 			],
 			language: {
 				paginate: {
@@ -121,6 +166,8 @@
 				}
 			}
 		});
+
+
 
 		// Mengatur refresh setiap detik
 		setInterval(function() {
@@ -266,6 +313,7 @@
 		// Handle klik tombol Edit
 		$(document).on('click', '.btn-edit', function() {
 			var id = $(this).data('id');
+			$('.modal-title').text('Edit Data')
 			var val_btn = $('#btn-save').val('edit')
 			if (id != '') {
 				$.ajax({
@@ -297,34 +345,55 @@
 		});
 		// Handle klik tombol Delete
 		$(document).on('click', '.btn-delete', function() {
+			
 			var id = $(this).data('id');
 			var val_btn = $('#btn-save').val('edit')
-			if (id != '') {
 
-				$.ajax({
-					type: 'GET',
-					url: 'src/controller/deleteData.php', // Ganti dengan file PHP backend yang sesuai
-					data: {
-						id: id
-					},
-					dataType: 'json',
-					success: function(data) {
-						console.log(data);
-						if (data.status === 200) {
-							Swal.fire({
-								title: "Berhasil!",
-								text: response.message,
-								icon: "success"
-							});
+			Swal.fire({
+				title: "Are you sure?",
+				text: "You won't be able to revert this!",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#3085d6",
+				cancelButtonColor: "#d33",
+				confirmButtonText: "Yes, delete it!"
+			}).then((result) => {
+				console.log(result.value);
+				console.log(1234);
+				if (result.value) {
+					if (id != '') {
+						$.ajax({
+							type: 'GET',
+							url: 'src/controller/deleteData.php', // Ganti dengan file PHP backend yang sesuai
+							data: {
+								id: id
+							},
+							dataType: 'json',
+							success: function(data) {
+								console.log(data);
+								if (data.status === 200) {
+									Swal.fire({
+										title: "Berhasil!",
+										text: data.message,
+										icon: "success"
+									});
 
-						}
+								}
 
-					},
-					error: function(data) {
+							},
+							error: function(data) {
 
+							}
+						});
 					}
-				});
-			}
+					// Swal.fire({
+					// title: "Deleted!",
+					// text: "Your file has been deleted.",
+					// icon: "success"
+					// });
+				}
+			});
+			
 
 			// console.log('Edit ID: ' + id);
 		});

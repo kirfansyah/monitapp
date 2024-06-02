@@ -65,17 +65,18 @@ include 'src/view/template/sidebar.php';
 			<div class="col-12">
 				<div class="card">
 					<div class="card-header">
-						<button type="button" id="tambah_data" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">Add Data Manual</button>
+						<button type="button" id="tambah_data" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">Add Data Manual</button>
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
+
 							<table id="example" class="display" style="min-width: 845px">
 								<thead>
 									<tr>
 										<!-- <th>Nama</th> -->
 										<th>Status</th>
 										<th>Tanggal</th>
-										<!-- <th>Aksi</th> -->
+										<th>Aksi</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -83,6 +84,7 @@ include 'src/view/template/sidebar.php';
 								</tbody>
 
 							</table>
+
 						</div>
 					</div>
 				</div>
@@ -104,7 +106,9 @@ include 'src/view/template/sidebar.php';
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Modal title</h5>
+
+					<h5 class="modal-title">Tambah Data</h5>
+					<!-- <input type="text" id="dateRangePicker" placeholder="Select Date Range" /> -->
 					<button type="button" class="btn-close" data-bs-dismiss="modal">
 					</button>
 				</div>
@@ -153,6 +157,8 @@ include 'src/view/template/sidebar.php';
 		</div>
 	</form>
 </div>
+
+
 
 
 
